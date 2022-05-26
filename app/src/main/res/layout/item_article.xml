@@ -16,6 +16,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
         <TextView
             android:id="@+id/title"
             tools:text="Finland, Sweden apply to join NATO, face Turkish objections - Reuters"
@@ -24,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@id/image"/>
 
         <TextView
             android:id="@+id/description"
@@ -39,7 +46,7 @@
         <TextView
             android:id="@+id/source"
             tools:text="Reuters"
-            android:text="@{article.author}"
+            android:text="@{article.source.name}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"

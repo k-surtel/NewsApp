@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.ks.newsapp.data.models.Article
 import com.ks.newsapp.databinding.ItemArticleBinding
 
@@ -24,6 +25,8 @@ class ArticlesAdapter(private val clickListener: ClickListener) :
             binding.article = article
             //binding.clickListener = clickListener
             binding.executePendingBindings()
+
+            Glide.with(binding.root).load(article.urlToImage).into(binding.image)
         }
 
         companion object {
