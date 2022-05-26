@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/newsFragment">
+
+    <fragment
+        android:id="@+id/newsFragment"
+        android:name="com.ks.newsapp.ui.news.NewsFragment"
+        android:label="NewsFragment" />
+    <fragment
+        android:id="@+id/savedFragment"
+        android:name="com.ks.newsapp.ui.saved.SavedFragment"
+        android:label="SavedFragment" />
+</navigation>

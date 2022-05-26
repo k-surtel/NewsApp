@@ -1,0 +1,56 @@
+package com.ks.newsapp.ui.news
+
+import android.os.Bundle
+import android.util.Log
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import com.ks.newsapp.databinding.FragmentNewsBinding
+import com.ks.newsapp.ui.adapters.ArticlesAdapter
+import com.ks.newsapp.ui.adapters.ClickListener
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+
+@AndroidEntryPoint
+class NewsFragment : Fragment() {
+
+    private val TAG = "NAPP NewsFragment"
+
+    private lateinit var binding: FragmentNewsBinding
+    private val viewModel: NewsViewModel by viewModels()
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+
+        binding = FragmentNewsBinding.inflate(inflater)
+        val adapter = ArticlesAdapter(ClickListener { })
+        binding.recyclerView.adapter = adapter
+
+        viewModel.getNews()
+        binding.refreshLayout.setOnRefreshListener { viewModel.getNews() }
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.getNewsEvent.collect {
+                when (it) {
+                    is NewsViewModel.NewsEvent.Success -> {
+                        binding.refreshLayout.isRefreshing = false
+                        adapter.submitList(it.articles)
+                    }
+                    is NewsViewModel.NewsEvent.Failure -> {
+                        binding.refreshLayout.isRefreshing = false
+                        Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                    }
+                    else -> {}
+                }
+            }
+        }
+
+        return binding.root
+    }
+}
