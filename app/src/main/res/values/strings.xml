@@ -2,4 +2,7 @@
     <string name="app_name">NewsApp</string>
     <string name="news">News</string>
     <string name="saved">Saved</string>
+    <string name="filter">Filter</string>
+    <string name="save_article">Save article</string>
+    <string name="see_in_browser">See in browser</string>
 </resources>

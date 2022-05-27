@@ -13,6 +13,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NewsApp">
         <activity
+            android:name=".ui.article.ArticleActivity"
+            android:exported="false"
+            android:theme="@style/Theme.NewsApp.NoActionBar" />
+        <activity
             android:name=".ui.MainActivity"
             android:exported="true">
             <intent-filter>

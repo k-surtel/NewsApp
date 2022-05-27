@@ -1,7 +1,7 @@
 package com.ks.newsapp.ui.news
 
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import com.ks.newsapp.databinding.FragmentNewsBinding
 import com.ks.newsapp.ui.adapters.ArticlesAdapter
 import com.ks.newsapp.ui.adapters.ClickListener
+import com.ks.newsapp.ui.article.ArticleActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
@@ -23,13 +24,16 @@ class NewsFragment : Fragment() {
     private lateinit var binding: FragmentNewsBinding
     private val viewModel: NewsViewModel by viewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
         binding = FragmentNewsBinding.inflate(inflater)
-        val adapter = ArticlesAdapter(ClickListener { })
+        val adapter = ArticlesAdapter(ClickListener {
+            val intent = Intent(activity, ArticleActivity::class.java)
+            val bundle = Bundle()
+            bundle.putSerializable("article", it)
+            intent.putExtras(bundle)
+            startActivity(intent)
+        })
         binding.recyclerView.adapter = adapter
 
         viewModel.getNews()

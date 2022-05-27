@@ -23,7 +23,7 @@ class ArticlesAdapter(private val clickListener: ClickListener) :
 
         fun bind(article: Article, clickListener: ClickListener) {
             binding.article = article
-            //binding.clickListener = clickListener
+            binding.clickListener = clickListener
             binding.executePendingBindings()
 
             Glide.with(binding.root).load(article.urlToImage).into(binding.image)

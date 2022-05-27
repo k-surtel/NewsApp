@@ -8,13 +8,16 @@
         <variable
             name="article"
             type="com.ks.newsapp.data.models.Article" />
-
+        <variable
+            name="clickListener"
+            type="com.ks.newsapp.ui.adapters.ClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:padding="16dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:onClick="@{() -> clickListener.onClick(article)}">
 
         <ImageView
             android:id="@+id/image"
@@ -41,24 +44,6 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/title"
-            app:layout_constraintEnd_toEndOf="parent"/>
-
-        <TextView
-            android:id="@+id/source"
-            tools:text="Reuters"
-            android:text="@{article.source.name}"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/description"/>
-
-        <TextView
-            android:id="@+id/published_at"
-            tools:text="2022-05-18T07:58:00Z"
-            android:text="@{article.publishedAt}"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/description"
             app:layout_constraintEnd_toEndOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
