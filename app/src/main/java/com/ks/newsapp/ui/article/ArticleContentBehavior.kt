@@ -26,6 +26,6 @@ class ArticleContentBehavior(context: Context, attributeSet: AttributeSet) :
     }
 
     private fun modifyArticleContent(scrollView: NestedScrollView, dependency: View) {
-        scrollView.y = dependency.y + dependency.height + 60
+        scrollView.y = dependency.y + dependency.height + 70
     }
 }
