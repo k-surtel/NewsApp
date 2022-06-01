@@ -26,10 +26,9 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(item.itemId == R.id.filter) {
-            Toast.makeText(applicationContext, "FILTER CLICKED", Toast.LENGTH_SHORT).show()
-            if(!drawer_layout.isDrawerOpen(filter_drawer)) {
+            if(!drawer_layout.isDrawerOpen(filter_drawer))
                 drawer_layout.openDrawer(filter_drawer)
-            } else drawer_layout.closeDrawer(filter_drawer)
+            else drawer_layout.closeDrawer(filter_drawer)
         }
         return true
     }

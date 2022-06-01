@@ -22,36 +22,41 @@
             app:defaultNavHost="true"
             app:navGraph="@navigation/nav_graph" />
 
-        <LinearLayout
+        <com.google.android.material.navigation.NavigationView
             android:id="@+id/filter_drawer"
-            android:background="@color/white"
+            android:layout_gravity="right"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_gravity="right">
+            android:layout_height="match_parent">
 
-            <com.google.android.material.button.MaterialButtonToggleGroup
-                android:padding="16dp"
-                app:singleSelection="true"
-                app:selectionRequired="true"
+            <LinearLayout
+                android:background="@color/white"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                <Button
-                    android:text="@string/everything"
+                <com.google.android.material.button.MaterialButtonToggleGroup
+                    android:padding="16dp"
+                    app:singleSelection="true"
+                    app:selectionRequired="true"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="?attr/materialButtonOutlinedStyle"/>
+                    android:layout_height="wrap_content">
 
-                <Button
-                    android:text="@string/top_headlines"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="?attr/materialButtonOutlinedStyle"/>
+                    <Button
+                        android:text="@string/all"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="?attr/materialButtonOutlinedStyle"/>
 
-            </com.google.android.material.button.MaterialButtonToggleGroup>
+                    <Button
+                        android:text="@string/top_news"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="?attr/materialButtonOutlinedStyle"/>
 
-        </LinearLayout>
+                </com.google.android.material.button.MaterialButtonToggleGroup>
+            </LinearLayout>
+
+        </com.google.android.material.navigation.NavigationView>
 
     </androidx.drawerlayout.widget.DrawerLayout>
 

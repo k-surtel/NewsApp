@@ -17,8 +17,6 @@ class NewsViewModel @Inject constructor(
     private val repository: NewsRepository
 ) : ViewModel() {
 
-    private val TAG = "NAPP NewsViewModel"
-
     sealed class NewsEvent {
         class Success(val articles: List<Article>) : NewsEvent()
         class Failure(val message: String) : NewsEvent()
@@ -34,7 +32,6 @@ class NewsViewModel @Inject constructor(
                 _getNewsEvent.value = NewsEvent.Failure(newsResponse.message!!)
             }
             is Resource.Success -> {
-                //articles = newsResponse.data!!.articles
                 _getNewsEvent.value = NewsEvent.Success(newsResponse.data!!.articles)
             }
         }

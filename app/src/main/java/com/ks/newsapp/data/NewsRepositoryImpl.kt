@@ -13,7 +13,7 @@ class NewsRepositoryImpl @Inject constructor(
 
     override suspend fun getNews(): Resource<NewsResponse> {
         return try {
-            val response = newsApi.getNews()
+            val response = newsApi.getTopNews()
             val result = response.body()
 
             if (response.isSuccessful && result != null) Resource.Success(result)

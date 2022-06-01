@@ -5,6 +5,6 @@
     <string name="filter">Filter</string>
     <string name="save_article">Save article</string>
     <string name="see_in_browser">See in browser</string>
-    <string name="everything">Everything</string>
-    <string name="top_headlines">Top headlines</string>
+    <string name="all">All</string>
+    <string name="top_news">Top news</string>
 </resources>
