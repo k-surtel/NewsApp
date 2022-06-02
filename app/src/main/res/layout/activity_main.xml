@@ -7,13 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.main.MainActivity">
 
-    <androidx.drawerlayout.widget.DrawerLayout
-        android:id="@+id/drawer_layout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/navbar"
-        app:layout_constraintTop_toTopOf="parent">
-
         <fragment
             android:id="@+id/nav_host_fragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
@@ -21,53 +14,6 @@
             android:layout_height="0dp"
             app:defaultNavHost="true"
             app:navGraph="@navigation/nav_graph" />
-
-        <com.google.android.material.navigation.NavigationView
-            android:id="@+id/filter_drawer"
-            android:layout_gravity="end"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
-
-            <LinearLayout
-                android:background="@color/white"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="16dp"
-                android:orientation="vertical">
-
-                <com.google.android.material.button.MaterialButtonToggleGroup
-                    app:singleSelection="true"
-                    app:selectionRequired="true"
-                    android:gravity="center"
-                    android:paddingBottom="16dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <Button
-                        android:text="@string/top_news"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        style="?attr/materialButtonOutlinedStyle"/>
-
-                    <Button
-                        android:text="@string/all"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        style="?attr/materialButtonOutlinedStyle"/>
-
-                </com.google.android.material.button.MaterialButtonToggleGroup>
-
-                <Spinner
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="16dp"
-                    android:entries="@array/countries_array" />
-
-            </LinearLayout>
-
-        </com.google.android.material.navigation.NavigationView>
-
-    </androidx.drawerlayout.widget.DrawerLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navbar"
