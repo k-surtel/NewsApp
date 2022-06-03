@@ -20,6 +20,7 @@ interface NewsApi {
         @Query("apiKey") key: String = API_KEY,
         @Query("country") country: String?,
         @Query("category") category: String?,
+        @Query("q") keywords: String?,
         @Query("page") page: Int = 1
     ): Response<NewsResponse>
 }

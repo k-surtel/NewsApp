@@ -10,4 +10,7 @@
     <string name="apply_filter">Apply filter</string>
     <string name="country">Country</string>
     <string name="category">Category</string>
+    <string name="keywords">Keywords</string>
+    <string name="united_states">United States</string>
+    <string name="top_news_no_params">Too many search results. Please set at least one filter parameter.</string>
 </resources>

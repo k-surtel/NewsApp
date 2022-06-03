@@ -7,6 +7,7 @@ interface NewsRepository {
 
     suspend fun getNews(
         country: String?,
-        category: String?
+        category: String?,
+        keywords: String?
     ): Resource<NewsResponse>
 }

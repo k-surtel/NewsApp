@@ -13,10 +13,14 @@ class NewsRepositoryImpl @Inject constructor(
 
     override suspend fun getNews(
         country: String?,
-        category: String?
+        category: String?,
+        keywords: String?
     ): Resource<NewsResponse> {
         return try {
-            val response = newsApi.getTopNews(country = country, category = category)
+            val response = newsApi.getTopNews(
+                country = country,
+                category = category,
+                keywords = keywords)
             val result = response.body()
 
             if (response.isSuccessful && result != null) Resource.Success(result)

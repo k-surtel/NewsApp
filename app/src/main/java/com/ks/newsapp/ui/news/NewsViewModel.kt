@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.ks.newsapp.data.NewsRepository
 import com.ks.newsapp.data.api.Resource
 import com.ks.newsapp.data.models.Article
-import com.ks.newsapp.data.models.Source
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,9 +16,20 @@ class NewsViewModel @Inject constructor(
     private val repository: NewsRepository
 ) : ViewModel() {
 
-    var country: String? = "us"
-    var category: String? = null
+    var topCountry: String? = "us"
+    var topCategory: String? = null
+    var topKeywords: String? = null
 
+    fun isTopNewsDataValid(): Boolean {
+        return !(topCountry.isNullOrBlank() && topCategory.isNullOrBlank() && topKeywords.isNullOrBlank())
+    }
+
+    var domains: String? = null
+    var keywords: String? = null
+    var excludeDomains: String? = null
+    var from: String? = null
+    var to: String? = null
+    var language: String? = null
 
     sealed class NewsEvent {
         class Success(val articles: List<Article>): NewsEvent()
@@ -31,7 +41,7 @@ class NewsViewModel @Inject constructor(
     val getNewsEvent: StateFlow<NewsEvent> = _getNewsEvent
 
     fun getNews() = viewModelScope.launch {
-        when (val newsResponse = repository.getNews(country, category)) {
+        when (val newsResponse = repository.getNews(topCountry, topCategory, topKeywords)) {
             is Resource.Error -> {
                 _getNewsEvent.value = NewsEvent.Failure(newsResponse.message!!)
             }
