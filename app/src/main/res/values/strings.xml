@@ -7,4 +7,7 @@
     <string name="see_in_browser">See in browser</string>
     <string name="all">All</string>
     <string name="top_news">Top news</string>
+    <string name="apply_filter">Apply filter</string>
+    <string name="country">Country</string>
+    <string name="category">Category</string>
 </resources>

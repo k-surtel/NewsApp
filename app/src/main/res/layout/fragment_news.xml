@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.ks.newsapp.ui.news.CustomDrawerLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.ks.newsapp.ui.news.CustomDrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
@@ -9,12 +8,12 @@
     tools:context=".ui.news.NewsFragment">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/refreshLayout"
+        android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+            android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -36,6 +35,7 @@
             android:padding="16dp">
 
             <com.google.android.material.button.MaterialButtonToggleGroup
+                android:id="@+id/feed_button_group"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -44,12 +44,14 @@
                 app:singleSelection="true">
 
                 <Button
+                    android:id="@+id/top_news_button"
                     style="?attr/materialButtonOutlinedStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/top_news" />
 
                 <Button
+                    android:id="@+id/all_news_button"
                     style="?attr/materialButtonOutlinedStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -57,11 +59,60 @@
 
             </com.google.android.material.button.MaterialButtonToggleGroup>
 
-            <Spinner
+            <LinearLayout
+                android:id="@+id/top_news_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:entries="@array/countries_array"
-                android:paddingBottom="16dp" />
+                android:orientation="vertical">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/country"
+                    android:paddingBottom="16dp">
+                    <AutoCompleteTextView
+                        android:id="@+id/country_spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="none" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/category"
+                    android:paddingBottom="16dp">
+                    <AutoCompleteTextView
+                        android:id="@+id/category_spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="none" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <Button
+                    android:id="@+id/top_news_apply_filter_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/apply_filter" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/all_news_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="BLEELELE" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

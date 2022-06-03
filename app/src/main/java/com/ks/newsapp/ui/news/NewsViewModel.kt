@@ -17,17 +17,21 @@ class NewsViewModel @Inject constructor(
     private val repository: NewsRepository
 ) : ViewModel() {
 
+    var country: String? = "us"
+    var category: String? = null
+
+
     sealed class NewsEvent {
-        class Success(val articles: List<Article>) : NewsEvent()
-        class Failure(val message: String) : NewsEvent()
-        object Empty : NewsEvent()
+        class Success(val articles: List<Article>): NewsEvent()
+        class Failure(val message: String): NewsEvent()
+        object Empty: NewsEvent()
     }
 
     private val _getNewsEvent = MutableStateFlow<NewsEvent>(NewsEvent.Empty)
     val getNewsEvent: StateFlow<NewsEvent> = _getNewsEvent
 
     fun getNews() = viewModelScope.launch {
-        when (val newsResponse = repository.getNews()) {
+        when (val newsResponse = repository.getNews(country, category)) {
             is Resource.Error -> {
                 _getNewsEvent.value = NewsEvent.Failure(newsResponse.message!!)
             }
@@ -35,5 +39,9 @@ class NewsViewModel @Inject constructor(
                 _getNewsEvent.value = NewsEvent.Success(newsResponse.data!!.articles)
             }
         }
+    }
+
+    fun newsReceived() {
+        _getNewsEvent.value = NewsEvent.Empty
     }
 }

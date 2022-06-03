@@ -1,59 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="countries_array">
-        <item name="ae">United Arab Emirates</item>
-        <item name="ar">Argentina</item>
-        <item name="at">Austria</item>
-        <item name="au">Australia</item>
-        <item name="be">Belgium</item>
-        <item name="bg">Bulgaria</item>
-        <item name="br">Brazil</item>
-        <item name="ca">Canada</item>
-        <item name="ch">Switzerland</item>
-        <item name="cn">China</item>
-        <item name="co">Colombia</item>
-        <item name="cu">Cuba</item>
-        <item name="cz">Czechia</item>
-        <item name="de">Germany</item>
-        <item name="eg">Egypt</item>
-        <item name="fr">France</item>
-        <item name="gb">United Kingdom</item>
-        <item name="gr">Greece</item>
-        <item name="hk">Hong Kong</item>
-        <item name="hu">Hungary</item>
-        <item name="id">Indonesia</item>
-        <item name="ie">Ireland</item>
-        <item name="il">Israel</item>
-        <item name="in">India</item>
-        <item name="it">Italy</item>
-        <item name="jp">Japan</item>
-        <item name="kr">South Korea</item>
-        <item name="lt">Lithuania</item>
-        <item name="lv">Latvia</item>
-        <item name="ma">Morocco</item>
-        <item name="mx">Mexico</item>
-        <item name="my">Malaysia</item>
-        <item name="ng">Nigeria</item>
-        <item name="nl">The Netherlands</item>
-        <item name="no">Norway</item>
-        <item name="nz">New Zealand</item>
-        <item name="ph">The Philippines</item>
-        <item name="pl">Poland</item>
-        <item name="pt">Portugal</item>
-        <item name="ro">Romania</item>
-        <item name="rs">Serbia</item>
-        <item name="ru">Russia</item>
-        <item name="sa">Saudi Arabia</item>
-        <item name="se">Sweden</item>
-        <item name="sg">Singapore</item>
-        <item name="si">Slovenia</item>
-        <item name="sk">Slovakia</item>
-        <item name="th">Thailand</item>
-        <item name="tr">Turkey</item>
-        <item name="tw">Taiwan</item>
-        <item name="ua">Ukraine</item>
-        <item name="us">United States</item>
-        <item name="ve">Venezuela</item>
-        <item name="za">South Africa</item>
+        <item>All</item>
+        <item>United Arab Emirates</item>
+        <item>Argentina</item>
+        <item>Austria</item>
+        <item>Australia</item>
+        <item>Belgium</item>
+        <item>Bulgaria</item>
+        <item>Brazil</item>
+        <item>Canada</item>
+        <item>Switzerland</item>
+        <item>China</item>
+        <item>Colombia</item>
+        <item>Cuba</item>
+        <item>Czechia</item>
+        <item>Germany</item>
+        <item>Egypt</item>
+        <item>France</item>
+        <item>United Kingdom</item>
+        <item>Greece</item>
+        <item>Hong Kong</item>
+        <item>Hungary</item>
+        <item>Indonesia</item>
+        <item>Ireland</item>
+        <item>Israel</item>
+        <item>India</item>
+        <item>Italy</item>
+        <item>Japan</item>
+        <item>South Korea</item>
+        <item>Lithuania</item>
+        <item>Latvia</item>
+        <item>Morocco</item>
+        <item>Mexico</item>
+        <item>Malaysia</item>
+        <item>Nigeria</item>
+        <item>The Netherlands</item>
+        <item>Norway</item>
+        <item>New Zealand</item>
+        <item>The Philippines</item>
+        <item>Poland</item>
+        <item>Portugal</item>
+        <item>Romania</item>
+        <item>Serbia</item>
+        <item>Russia</item>
+        <item>Saudi Arabia</item>
+        <item>Sweden</item>
+        <item>Singapore</item>
+        <item>Slovenia</item>
+        <item>Slovakia</item>
+        <item>Thailand</item>
+        <item>Turkey</item>
+        <item>Taiwan</item>
+        <item>Ukraine</item>
+        <item>United States</item>
+        <item>Venezuela</item>
+        <item>South Africa</item>
     </string-array>
 </resources>

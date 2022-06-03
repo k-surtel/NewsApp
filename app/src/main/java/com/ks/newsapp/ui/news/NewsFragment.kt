@@ -2,7 +2,10 @@ package com.ks.newsapp.ui.news
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.*
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import androidx.fragment.app.Fragment
 import android.widget.Toast
 import androidx.fragment.app.viewModels
@@ -12,8 +15,11 @@ import com.ks.newsapp.databinding.FragmentNewsBinding
 import com.ks.newsapp.ui.adapters.ArticlesAdapter
 import com.ks.newsapp.ui.adapters.ClickListener
 import com.ks.newsapp.ui.article.ArticleActivity
+import com.ks.newsapp.ui.news.Utils.mapCategory
+import com.ks.newsapp.ui.news.Utils.mapCountry
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
+import java.util.*
 
 @AndroidEntryPoint
 class NewsFragment : Fragment() {
@@ -24,9 +30,43 @@ class NewsFragment : Fragment() {
     private val viewModel: NewsViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-
         setHasOptionsMenu(true)
         binding = FragmentNewsBinding.inflate(inflater)
+        setupArticlesList()
+
+        binding.feedButtonGroup.check(R.id.top_news_button)
+        binding.feedButtonGroup.addOnButtonCheckedListener { group, checkedId, isChecked ->
+            if(!isChecked) return@addOnButtonCheckedListener
+            when(checkedId) {
+                R.id.top_news_button -> {
+                    binding.allNewsLayout.visibility = View.GONE
+                    binding.topNewsLayout.visibility = View.VISIBLE
+                }
+                R.id.all_news_button -> {
+                    binding.topNewsLayout.visibility = View.GONE
+                    binding.allNewsLayout.visibility = View.VISIBLE
+                }
+            }
+        }
+
+        val countriesList = resources.getStringArray(R.array.countries_array).asList()
+        val countriesAdapter = ArrayAdapter(requireContext(), R.layout.item_spinner, countriesList)
+        (binding.countrySpinner as? AutoCompleteTextView)?.setAdapter(countriesAdapter)
+
+        val categoriesList = resources.getStringArray(R.array.categories_array).asList()
+        val categoriesAdapter = ArrayAdapter(requireContext(), R.layout.item_spinner, categoriesList)
+        (binding.categorySpinner as? AutoCompleteTextView)?.setAdapter(categoriesAdapter)
+
+        binding.topNewsApplyFilterButton.setOnClickListener {
+            viewModel.country = mapCountry(binding.countrySpinner.text.toString())
+            viewModel.category = mapCategory(binding.categorySpinner.text.toString())
+            viewModel.getNews()
+        }
+
+        return binding.root
+    }
+
+    private fun setupArticlesList() {
         val adapter = ArticlesAdapter(ClickListener {
             val intent = Intent(activity, ArticleActivity::class.java)
             val bundle = Bundle()
@@ -52,10 +92,9 @@ class NewsFragment : Fragment() {
                     }
                     else -> {}
                 }
+                //viewModel.newsReceived()
             }
         }
-
-        return binding.root
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

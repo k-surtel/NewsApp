@@ -5,5 +5,8 @@ import com.ks.newsapp.data.models.NewsResponse
 
 interface NewsRepository {
 
-    suspend fun getNews(): Resource<NewsResponse>
+    suspend fun getNews(
+        country: String?,
+        category: String?
+    ): Resource<NewsResponse>
 }
