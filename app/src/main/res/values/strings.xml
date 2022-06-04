@@ -13,4 +13,11 @@
     <string name="keywords">Keywords</string>
     <string name="united_states">United States</string>
     <string name="top_news_no_params">Too many search results. Please set at least one filter parameter.</string>
+    <string name="all_news_no_params">Too many search results. Please use at least one of the following: KEYWORDS, DOMAINS.</string>
+    <string name="domains">Domains</string>
+    <string name="domains_hint">eg bbc.co.uk, techcrunch.com, engadget.com</string>
+    <string name="excluded_domains">Excluded domains</string>
+    <string name="from">From</string>
+    <string name="to">To</string>
+    <string name="language">Language</string>
 </resources>

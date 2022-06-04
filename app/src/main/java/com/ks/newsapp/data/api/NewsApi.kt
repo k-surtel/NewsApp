@@ -11,7 +11,11 @@ interface NewsApi {
     @GET("/v2/everything")
     suspend fun getNews(
         @Query("apiKey") key: String = API_KEY,
-        @Query("q") keyword: String? = null,
+        @Query("q") keywords: String? = null,
+        @Query("domains") domains: String? = null,
+        @Query("from") from: String? = null,
+        @Query("to") to: String? = null,
+        @Query("language") language: String? = null,
         @Query("page") page: Int = 1
     ): Response<NewsResponse>
 

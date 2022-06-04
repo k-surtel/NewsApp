@@ -68,4 +68,23 @@ object Utils {
             else -> category
         }
     }
+
+    fun mapLanguage(language: String): String? {
+        return when(language) {
+            "Arabic" -> "ar"
+            "German" -> "de"
+            "English" -> "en"
+            "Spanish" -> "es"
+            "French" -> "fr"
+            "Hebrew" -> "he"
+            "Italian" -> "it"
+            "Dutch" -> "nl"
+            "Norwegian" -> "no"
+            "Portuguese" -> "pt"
+            "Russian" -> "ru"
+            "Swedish" -> "sv"
+            "Chinese" -> "zh"
+            else -> null
+        }
+    }
 }

@@ -12,15 +12,35 @@ class NewsRepositoryImpl @Inject constructor(
     private val TAG = "NAPP NewsRepositoryImpl"
 
     override suspend fun getNews(
+        feed: Feed,
         country: String?,
         category: String?,
-        keywords: String?
+        keywords: String?,
+        domains: String?,
+        from: String?,
+        to: String?,
+        language: String?
     ): Resource<NewsResponse> {
         return try {
-            val response = newsApi.getTopNews(
-                country = country,
-                category = category,
-                keywords = keywords)
+            val response = when(feed) {
+                Feed.TOP_NEWS -> {
+                    newsApi.getTopNews(
+                        country = country,
+                        category = category,
+                        keywords = keywords
+                    )
+                }
+                Feed.ALL_NEWS -> {
+                    newsApi.getNews(
+                        keywords = keywords,
+                        domains = domains,
+                        from = from,
+                        to = to,
+                        language = language
+                    )
+                }
+            }
+
             val result = response.body()
 
             if (response.isSuccessful && result != null) Resource.Success(result)
