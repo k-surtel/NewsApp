@@ -232,6 +232,6 @@ class NewsFragment : Fragment() {
                 binding.drawerLayout.openDrawer(binding.filterDrawer)
             else binding.drawerLayout.closeDrawer(binding.filterDrawer)
         }
-        return true
+        return super.onOptionsItemSelected(item)
     }
 }

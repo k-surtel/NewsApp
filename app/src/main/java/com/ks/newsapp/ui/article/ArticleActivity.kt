@@ -3,6 +3,7 @@ package com.ks.newsapp.ui.article
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -22,15 +23,21 @@ class ArticleActivity : AppCompatActivity() {
         viewModel.article = intent.getSerializableExtra("article") as Article
         binding = ActivityArticleBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setSupportActionBar(findViewById(R.id.toolbar))
-        bindViews()
+        setupSupportActionBar()
+        bindData()
 
-        binding.buttonViewInBrowser.setOnClickListener {
-            openLink()
+        binding.buttonViewInBrowser.setOnClickListener { openArticleUrl() }
+    }
+
+    private fun setupSupportActionBar() {
+        setSupportActionBar(findViewById(R.id.toolbar))
+        if (supportActionBar != null){
+            supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+            supportActionBar!!.setDisplayShowHomeEnabled(true)
         }
     }
 
-    private fun bindViews() {
+    private fun bindData() {
         binding.title.text = viewModel.article.title
         Glide.with(binding.root).load(viewModel.article.urlToImage).into(binding.imageView)
         binding.content.text = viewModel.article.content
@@ -40,9 +47,14 @@ class ArticleActivity : AppCompatActivity() {
         binding.source.text = viewModel.article.source.name
     }
 
-    private fun openLink() {
+    private fun openArticleUrl() {
         val intent = Intent(Intent.ACTION_VIEW)
         intent.data = Uri.parse(viewModel.article.url)
         startActivity(intent)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) finish()
+        return super.onOptionsItemSelected(item)
     }
 }
