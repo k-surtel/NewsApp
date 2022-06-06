@@ -2,6 +2,7 @@ package com.ks.newsapp.ui.news
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
@@ -13,6 +14,7 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
 import com.ks.newsapp.R
 import com.ks.newsapp.data.Feed
+import com.ks.newsapp.data.models.Article
 import com.ks.newsapp.databinding.FragmentNewsBinding
 import com.ks.newsapp.ui.adapters.ArticlesAdapter
 import com.ks.newsapp.ui.adapters.ClickListener
@@ -37,20 +39,14 @@ class NewsFragment : Fragment() {
         binding = FragmentNewsBinding.inflate(inflater)
         populateArticlesList()
         handleFeedSourceChange()
-        handleTopNewsFilter()
+        setupTopNewsFilter()
         setupAllNewsFilter()
 
         return binding.root
     }
 
     private fun populateArticlesList() {
-        val adapter = ArticlesAdapter(ClickListener {
-            val intent = Intent(activity, ArticleActivity::class.java)
-            val bundle = Bundle()
-            bundle.putSerializable("article", it)
-            intent.putExtras(bundle)
-            startActivity(intent)
-        })
+        val adapter = ArticlesAdapter(ClickListener { goToArticle(it) })
 
         binding.recyclerView.adapter = adapter
         viewModel.getNews(viewModel.currentFeed)
@@ -69,10 +65,16 @@ class NewsFragment : Fragment() {
                     }
                     else -> {}
                 }
-
-                viewModel.newsReceived()
             }
         }
+    }
+
+    private fun goToArticle(article: Article) {
+        val intent = Intent(activity, ArticleActivity::class.java)
+        val bundle = Bundle()
+        bundle.putSerializable("article", article)
+        intent.putExtras(bundle)
+        startActivity(intent)
     }
 
     private fun handleFeedSourceChange() {
@@ -92,7 +94,7 @@ class NewsFragment : Fragment() {
         }
     }
 
-    private fun handleTopNewsFilter() {
+    private fun setupTopNewsFilter() {
         setupCountriesSpinner()
         setupCategoriesSpinner()
 

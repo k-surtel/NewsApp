@@ -44,6 +44,7 @@ class NewsViewModel @Inject constructor(
     }
 
     fun getNews(feed: Feed) = viewModelScope.launch {
+        refreshNewsEvent()
         val keywords = if(feed == Feed.TOP_NEWS) topKeywords else keywords
 
         when (val newsResponse = repository.getNews(
@@ -67,7 +68,7 @@ class NewsViewModel @Inject constructor(
         }
     }
 
-    fun newsReceived() { _getNewsEvent.value = NewsEvent.Empty }
+    private fun refreshNewsEvent() { _getNewsEvent.value = NewsEvent.Empty }
 
     sealed class NewsEvent {
         class Success(val articles: List<Article>): NewsEvent()

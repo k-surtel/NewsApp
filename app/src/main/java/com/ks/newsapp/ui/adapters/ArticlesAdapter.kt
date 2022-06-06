@@ -10,7 +10,7 @@ import com.ks.newsapp.data.models.Article
 import com.ks.newsapp.databinding.ItemArticleBinding
 
 class ArticlesAdapter(private val clickListener: ClickListener) :
-    ListAdapter<Article, ArticlesAdapter.ViewHolder>(DecksDiffCallback()) {
+    ListAdapter<Article, ArticlesAdapter.ViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
         ViewHolder.from(parent)
@@ -39,7 +39,7 @@ class ArticlesAdapter(private val clickListener: ClickListener) :
     }
 }
 
-class DecksDiffCallback : DiffUtil.ItemCallback<Article>() {
+class DiffCallback : DiffUtil.ItemCallback<Article>() {
     override fun areItemsTheSame(oldItem: Article, newItem: Article): Boolean {
         return oldItem.url == newItem.url
     }
