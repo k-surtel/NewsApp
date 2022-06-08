@@ -11,7 +11,9 @@ import com.bumptech.glide.Glide
 import com.ks.newsapp.R
 import com.ks.newsapp.data.models.Article
 import com.ks.newsapp.databinding.ActivityArticleBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ArticleActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityArticleBinding
@@ -26,7 +28,11 @@ class ArticleActivity : AppCompatActivity() {
         setupSupportActionBar()
         bindData()
 
+        databaseOperationsButtonsVisibility(viewModel.article.id != null)
+
         binding.buttonViewInBrowser.setOnClickListener { openArticleUrl() }
+        binding.buttonSave.setOnClickListener { saveToDatabase() }
+        binding.buttonRemove.setOnClickListener { removeFromDatabase() }
     }
 
     private fun setupSupportActionBar() {
@@ -47,10 +53,28 @@ class ArticleActivity : AppCompatActivity() {
         binding.source.text = viewModel.article.source.name
     }
 
+    private fun databaseOperationsButtonsVisibility(isSaved: Boolean) {
+        if(isSaved) {
+            binding.buttonSave.visibility = View.GONE
+            binding.buttonRemove.visibility = View.VISIBLE
+        } else {
+            binding.buttonSave.visibility = View.VISIBLE
+            binding.buttonRemove.visibility = View.GONE
+        }
+    }
+
     private fun openArticleUrl() {
         val intent = Intent(Intent.ACTION_VIEW)
         intent.data = Uri.parse(viewModel.article.url)
         startActivity(intent)
+    }
+
+    private fun saveToDatabase() {
+        if(viewModel.saveArticle()) databaseOperationsButtonsVisibility(true)
+    }
+
+    private fun removeFromDatabase() {
+        if(viewModel.removeArticle()) databaseOperationsButtonsVisibility(false)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

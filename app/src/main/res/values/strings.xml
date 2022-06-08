@@ -20,4 +20,5 @@
     <string name="from">From</string>
     <string name="to">To</string>
     <string name="language">Language</string>
+    <string name="remove_article">Remove from database</string>
 </resources>
