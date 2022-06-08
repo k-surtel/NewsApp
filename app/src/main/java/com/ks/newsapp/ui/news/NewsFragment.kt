@@ -2,6 +2,7 @@ package com.ks.newsapp.ui.news
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
@@ -126,13 +127,13 @@ class NewsFragment : Fragment() {
     private fun setupCountriesSpinner() {
         val countriesList = resources.getStringArray(R.array.countries_array).asList()
         val countriesAdapter = ArrayAdapter(requireContext(), R.layout.item_spinner, countriesList)
-        (binding.topCountrySpinner as? AutoCompleteTextView)?.setAdapter(countriesAdapter)
+        binding.topCountrySpinner.setAdapter(countriesAdapter)
     }
 
     private fun setupCategoriesSpinner() {
         val categoriesList = resources.getStringArray(R.array.categories_array).asList()
         val categoriesAdapter = ArrayAdapter(requireContext(), R.layout.item_spinner, categoriesList)
-        (binding.topCategorySpinner as? AutoCompleteTextView)?.setAdapter(categoriesAdapter)
+        binding.topCategorySpinner.setAdapter(categoriesAdapter)
     }
 
     private fun collectTopNewsData() {
@@ -173,7 +174,7 @@ class NewsFragment : Fragment() {
     private fun setupLanguagesSpinner() {
         val languagesList = resources.getStringArray(R.array.languages_array).asList()
         val languagesAdapter = ArrayAdapter(requireContext(), R.layout.item_spinner, languagesList)
-        (binding.languageSpinner as? AutoCompleteTextView)?.setAdapter(languagesAdapter)
+        binding.languageSpinner.setAdapter(languagesAdapter)
     }
 
     private fun collectAllNewsData() {
