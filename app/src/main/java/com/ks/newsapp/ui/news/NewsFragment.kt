@@ -2,14 +2,11 @@ package com.ks.newsapp.ui.news
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -31,8 +28,6 @@ import java.util.*
 
 @AndroidEntryPoint
 class NewsFragment : Fragment() {
-
-    private val TAG = "NAPP NewsFragment"
 
     private lateinit var binding: FragmentNewsBinding
     private val viewModel: NewsViewModel by viewModels()
@@ -114,9 +109,6 @@ class NewsFragment : Fragment() {
     }
 
     private fun setupTopNewsFilter() {
-        setupCountriesSpinner()
-        setupCategoriesSpinner()
-
         binding.topNewsApplyFilterButton.setOnClickListener {
             collectTopNewsData()
             if(viewModel.validateTopNews()) viewModel.loadNews()
@@ -146,7 +138,6 @@ class NewsFragment : Fragment() {
     private fun setupAllNewsFilter() {
         setupDomainsHint()
         setupDatePickers()
-        setupLanguagesSpinner()
 
         binding.allNewsApplyFilterButton.setOnClickListener {
             collectAllNewsData()
@@ -254,5 +245,12 @@ class NewsFragment : Fragment() {
             else binding.drawerLayout.closeDrawer(binding.filterDrawer)
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setupCountriesSpinner()
+        setupCategoriesSpinner()
+        setupLanguagesSpinner()
     }
 }

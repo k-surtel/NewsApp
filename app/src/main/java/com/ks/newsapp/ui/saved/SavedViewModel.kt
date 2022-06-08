@@ -1,24 +1,17 @@
 package com.ks.newsapp.ui.saved
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.couchbase.lite.*
 import com.ks.newsapp.data.models.Article
 import com.ks.newsapp.data.models.Source
 import com.ks.newsapp.ui.adapters.ArticlesAdapter
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
-
-private const val TAG = "NAPP SavedViewModel"
 
 @HiltViewModel
 class SavedViewModel @Inject constructor(
     private val database: Database
 ) : ViewModel() {
-
-    private val itemsCount = database.count
 
     fun getSavedArticles(): List<Article> {
         try {
@@ -40,9 +33,7 @@ class SavedViewModel @Inject constructor(
             results.forEach { articles.add(documentToArticle(it)) }
             return articles.toList()
 
-        } catch (e: CouchbaseLiteException) {
-            //TODO
-        }
+        } catch (e: CouchbaseLiteException) { }
         return listOf()
     }
 
@@ -66,7 +57,7 @@ class SavedViewModel @Inject constructor(
     }
 
     fun checkDatabaseChanges(adapter: ArticlesAdapter) {
-        if(adapter.currentList.size != itemsCount.toInt()) {
+        if(adapter.currentList.size != database.count.toInt()) {
             adapter.submitList(getSavedArticles())
         }
     }

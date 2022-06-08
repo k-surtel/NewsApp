@@ -1,6 +1,5 @@
 package com.ks.newsapp.ui.news
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ks.newsapp.data.Feed

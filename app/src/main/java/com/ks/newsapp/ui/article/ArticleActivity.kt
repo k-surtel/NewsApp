@@ -8,6 +8,7 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import com.ks.newsapp.R
 import com.ks.newsapp.data.models.Article
 import com.ks.newsapp.databinding.ActivityArticleBinding
@@ -71,10 +72,12 @@ class ArticleActivity : AppCompatActivity() {
 
     private fun saveToDatabase() {
         if(viewModel.saveArticle()) databaseOperationsButtonsVisibility(true)
+        else Snackbar.make(binding.root, R.string.database_save_error, Snackbar.LENGTH_LONG).show()
     }
 
     private fun removeFromDatabase() {
         if(viewModel.removeArticle()) databaseOperationsButtonsVisibility(false)
+        else Snackbar.make(binding.root, R.string.database_delete_error, Snackbar.LENGTH_LONG).show()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

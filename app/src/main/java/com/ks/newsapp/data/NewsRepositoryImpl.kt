@@ -9,8 +9,6 @@ class NewsRepositoryImpl @Inject constructor(
     private val newsApi: NewsApi
 ) : NewsRepository {
 
-    private val TAG = "NAPP NewsRepositoryImpl"
-
     override suspend fun getNews(
         feed: Feed,
         country: String?,

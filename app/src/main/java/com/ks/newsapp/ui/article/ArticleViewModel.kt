@@ -1,6 +1,5 @@
 package com.ks.newsapp.ui.article
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.couchbase.lite.CouchbaseLiteException
 import com.couchbase.lite.Database
@@ -10,7 +9,6 @@ import com.ks.newsapp.data.models.Article
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-private const val TAG = "NAPP ArticleViewModel"
 
 @HiltViewModel
 class ArticleViewModel @Inject constructor(
@@ -39,10 +37,7 @@ class ArticleViewModel @Inject constructor(
             article.id = document.id
             return true
 
-        } catch (e: CouchbaseLiteException) {
-            Log.e(TAG, "saveArticle: ${e.message}", )
-            return false
-        }
+        } catch (e: CouchbaseLiteException) { return false }
     }
 
     fun removeArticle(): Boolean {
@@ -51,9 +46,6 @@ class ArticleViewModel @Inject constructor(
             document?.let { database.delete(it) }
             article.id = null
             true
-        } catch (e: CouchbaseLiteException) {
-            // TODO
-            false
-        }
+        } catch (e: CouchbaseLiteException) { false }
     }
 }
