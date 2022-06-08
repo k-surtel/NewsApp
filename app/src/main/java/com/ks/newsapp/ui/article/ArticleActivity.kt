@@ -71,13 +71,15 @@ class ArticleActivity : AppCompatActivity() {
     }
 
     private fun saveToDatabase() {
-        if(viewModel.saveArticle()) databaseOperationsButtonsVisibility(true)
-        else Snackbar.make(binding.root, R.string.database_save_error, Snackbar.LENGTH_LONG).show()
+        val message = viewModel.saveArticle()
+        if(message == null) databaseOperationsButtonsVisibility(true)
+        else Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()
     }
 
     private fun removeFromDatabase() {
-        if(viewModel.removeArticle()) databaseOperationsButtonsVisibility(false)
-        else Snackbar.make(binding.root, R.string.database_delete_error, Snackbar.LENGTH_LONG).show()
+        val message = viewModel.removeArticle()
+        if(message == null) databaseOperationsButtonsVisibility(false)
+        else Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

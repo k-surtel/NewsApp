@@ -1,10 +1,7 @@
 package com.ks.newsapp.ui.article
 
 import androidx.lifecycle.ViewModel
-import com.couchbase.lite.CouchbaseLiteException
-import com.couchbase.lite.Database
-import com.couchbase.lite.MutableDictionary
-import com.couchbase.lite.MutableDocument
+import com.couchbase.lite.*
 import com.ks.newsapp.data.models.Article
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -17,7 +14,21 @@ class ArticleViewModel @Inject constructor(
 
     lateinit var article: Article
 
-    fun saveArticle(): Boolean {
+    fun saveArticle(): String? {
+        return if(!isArticleAlreadySaved()) saveArticleToDatabase()
+        else "The article is already saved in the database"
+    }
+
+    private fun isArticleAlreadySaved(): Boolean {
+        try {
+            val results = QueryBuilder.select(SelectResult.property("url"))
+                .from(DataSource.database(database)).execute()
+            results.forEach { if(article.url == it.getString("url")) return true }
+        } catch (e: CouchbaseLiteException) { }
+        return false
+    }
+
+    private fun saveArticleToDatabase(): String? {
         try {
             val source = MutableDictionary()
                 .setString("id", article.source.id)
@@ -35,17 +46,17 @@ class ArticleViewModel @Inject constructor(
 
             database.save(document)
             article.id = document.id
-            return true
+            return null
 
-        } catch (e: CouchbaseLiteException) { return false }
+        } catch (e: CouchbaseLiteException) { return e.message }
     }
 
-    fun removeArticle(): Boolean {
+    fun removeArticle(): String? {
         return try {
             val document = database.getDocument(article.id!!)
             document?.let { database.delete(it) }
             article.id = null
-            true
-        } catch (e: CouchbaseLiteException) { false }
+            null
+        } catch (e: CouchbaseLiteException) { e.message }
     }
 }

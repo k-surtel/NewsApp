@@ -24,9 +24,6 @@ class SavedFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View {
         binding = FragmentSavedBinding.inflate(inflater, container, false)
-//        setHasOptionsMenu(true)
-//        binding.viewModel = viewModel
-//        binding.lifecycleOwner = this
 
         adapter = ArticlesAdapter(ClickListener { goToArticle(it) })
         binding.recyclerView.adapter = adapter
