@@ -2,14 +2,15 @@ package com.ks.newsapp.ui.news
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
 import com.ks.newsapp.R
@@ -26,6 +27,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import java.util.*
 
+
 @AndroidEntryPoint
 class NewsFragment : Fragment() {
 
@@ -38,6 +40,7 @@ class NewsFragment : Fragment() {
         setHasOptionsMenu(true)
         binding = FragmentNewsBinding.inflate(inflater)
         populateArticlesList()
+        handleLoadingNewPages()
         handleFeedSourceChange()
         setupTopNewsFilter()
         setupAllNewsFilter()
@@ -49,8 +52,8 @@ class NewsFragment : Fragment() {
         val adapter = ArticlesAdapter(ClickListener { goToArticle(it) })
 
         binding.recyclerView.adapter = adapter
-        viewModel.getNews(viewModel.currentFeed)
-        binding.refreshLayout.setOnRefreshListener { viewModel.getNews(viewModel.currentFeed) }
+        viewModel.loadNews()
+        binding.refreshLayout.setOnRefreshListener { viewModel.loadNews() }
 
         lifecycleScope.launchWhenStarted {
             viewModel.getNewsEvent.collect {
@@ -58,6 +61,7 @@ class NewsFragment : Fragment() {
                     is NewsViewModel.NewsEvent.Success -> {
                         binding.refreshLayout.isRefreshing = false
                         adapter.submitList(it.articles)
+                        viewModel.bottomReached = false
                     }
                     is NewsViewModel.NewsEvent.Failure -> {
                         binding.refreshLayout.isRefreshing = false
@@ -75,6 +79,20 @@ class NewsFragment : Fragment() {
         bundle.putSerializable("article", article)
         intent.putExtras(bundle)
         startActivity(intent)
+    }
+
+    private fun handleLoadingNewPages() {
+        binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+
+                if(recyclerView.adapter?.itemCount == 0) return
+                if (!recyclerView.canScrollVertically(1) && !viewModel.bottomReached) {
+                    viewModel.bottomReached = true
+                    viewModel.loadNextPage()
+                }
+            }
+        })
     }
 
     private fun handleFeedSourceChange() {
@@ -100,7 +118,7 @@ class NewsFragment : Fragment() {
 
         binding.topNewsApplyFilterButton.setOnClickListener {
             collectTopNewsData()
-            if(viewModel.validateTopNews()) viewModel.getNews(viewModel.currentFeed)
+            if(viewModel.validateTopNews()) viewModel.loadNews()
             else Snackbar.make(binding.root, R.string.top_news_no_params, Snackbar.LENGTH_LONG).show()
         }
     }
@@ -131,7 +149,7 @@ class NewsFragment : Fragment() {
 
         binding.allNewsApplyFilterButton.setOnClickListener {
             collectAllNewsData()
-            if(viewModel.validateAllNews()) viewModel.getNews(viewModel.currentFeed)
+            if(viewModel.validateAllNews()) viewModel.loadNews()
             else Snackbar.make(binding.root, R.string.all_news_no_params, Snackbar.LENGTH_LONG).show()
         }
     }

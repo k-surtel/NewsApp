@@ -13,6 +13,7 @@ interface NewsRepository {
         domains: String?,
         from: String?,
         to: String?,
-        language: String?
+        language: String?,
+        page: Int
     ): Resource<NewsResponse>
 }

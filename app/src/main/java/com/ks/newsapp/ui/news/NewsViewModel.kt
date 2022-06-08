@@ -1,5 +1,6 @@
 package com.ks.newsapp.ui.news
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ks.newsapp.data.Feed
@@ -18,6 +19,9 @@ class NewsViewModel @Inject constructor(
 ) : ViewModel() {
 
     var currentFeed = Feed.TOP_NEWS
+    var bottomReached = false
+    var currentPage = 1
+    var allLoaded = false
 
     var country: String? = "us"
     var category: String? = null
@@ -43,27 +47,47 @@ class NewsViewModel @Inject constructor(
         return !(keywords.isNullOrBlank() && domains.isNullOrBlank())
     }
 
-    fun getNews(feed: Feed) = viewModelScope.launch {
+    fun loadNews() {
+        currentPage = 1
+        bottomReached = false
+        allLoaded = false
         refreshNewsEvent()
-        val keywords = if(feed == Feed.TOP_NEWS) topKeywords else keywords
+        getNews()
+    }
+
+    fun loadNextPage() {
+        currentPage++
+        getNews()
+    }
+
+    private fun getNews() = viewModelScope.launch {
+        if(allLoaded) return@launch
+
+        val loadedArticles =
+            if(getNewsEvent.value is NewsEvent.Success) (getNewsEvent.value as NewsEvent.Success).articles.toMutableList()
+            else mutableListOf()
+
+        val keywords = if(currentFeed == Feed.TOP_NEWS) topKeywords else keywords
 
         when (val newsResponse = repository.getNews(
-            feed = feed,
+            feed = currentFeed,
             country = country,
             category = category,
             keywords = keywords,
             domains = domains,
             from = from,
             to = to,
-            language = language
+            language = language,
+            page = currentPage
         )) {
             is Resource.Error -> {
                 if(newsResponse.message.isNullOrBlank())
-                    _getNewsEvent.value = NewsEvent.Failure("An unknown error occured")
+                    _getNewsEvent.value = NewsEvent.Failure("An unknown error occurred")
                 else _getNewsEvent.value = NewsEvent.Failure(newsResponse.message)
             }
             is Resource.Success -> {
-                _getNewsEvent.value = NewsEvent.Success(newsResponse.data!!.articles)
+                if(newsResponse.data!!.articles.isEmpty()) allLoaded = true
+                _getNewsEvent.value = NewsEvent.Success(loadedArticles.plus(newsResponse.data.articles))
             }
         }
     }

@@ -19,7 +19,8 @@ class NewsRepositoryImpl @Inject constructor(
         domains: String?,
         from: String?,
         to: String?,
-        language: String?
+        language: String?,
+        page: Int
     ): Resource<NewsResponse> {
         return try {
             val response = when(feed) {
@@ -27,7 +28,8 @@ class NewsRepositoryImpl @Inject constructor(
                     newsApi.getTopNews(
                         country = country,
                         category = category,
-                        keywords = keywords
+                        keywords = keywords,
+                        page = page
                     )
                 }
                 Feed.ALL_NEWS -> {
@@ -36,7 +38,8 @@ class NewsRepositoryImpl @Inject constructor(
                         domains = domains,
                         from = from,
                         to = to,
-                        language = language
+                        language = language,
+                        page = page
                     )
                 }
             }
