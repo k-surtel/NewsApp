@@ -33,8 +33,9 @@ object AppModule {
     @Provides
     @Singleton
     fun provideNewsRepository(
-        newsApi: NewsApi
-    ): NewsRepository = NewsRepositoryImpl(newsApi)
+        newsApi: NewsApi,
+        database: Database
+    ): NewsRepository = NewsRepositoryImpl(newsApi, database)
 
     @Provides
     @Singleton
