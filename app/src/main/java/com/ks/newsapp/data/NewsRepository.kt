@@ -1,6 +1,5 @@
 package com.ks.newsapp.data
 
-import com.ks.newsapp.data.api.Resource
 import com.ks.newsapp.data.models.Article
 import com.ks.newsapp.data.models.NewsResponse
 
@@ -18,13 +17,13 @@ interface NewsRepository {
         page: Int
     ): Resource<NewsResponse>
 
-    fun getSavedArticles(): List<Article>
+    fun getSavedArticles(): Resource<List<Article>>
 
-    fun getSavedArticlesCount(): Int
+    fun getSavedArticlesCount(): Resource<Int>
 
-    fun isArticleSaved(url: String): Boolean
+    fun isArticleSaved(url: String): Resource<Boolean>
 
-    fun saveArticle(article: Article): String?
+    fun saveArticle(article: Article): Resource<String>
 
-    fun removeArticle(article: Article): String?
+    fun removeArticle(article: Article): Resource<String>
 }

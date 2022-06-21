@@ -2,7 +2,6 @@ package com.ks.newsapp.data
 
 import com.couchbase.lite.*
 import com.ks.newsapp.data.api.NewsApi
-import com.ks.newsapp.data.api.Resource
 import com.ks.newsapp.data.models.Article
 import com.ks.newsapp.data.models.NewsResponse
 import com.ks.newsapp.data.models.Source
@@ -56,7 +55,7 @@ class NewsRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getSavedArticles(): List<Article> {
+    override fun getSavedArticles(): Resource<List<Article>> {
         try {
             val query = QueryBuilder.select(
                 SelectResult.property("author"),
@@ -74,10 +73,11 @@ class NewsRepositoryImpl @Inject constructor(
             val articles = mutableListOf<Article>()
 
             results.forEach { articles.add(documentToArticle(it)) }
-            return articles.toList()
+            return Resource.Success(articles.toList())
 
-        } catch (e: CouchbaseLiteException) { }
-        return listOf()
+        } catch (e: CouchbaseLiteException) {
+            return Resource.Error(e.message ?: "An unknown error has occurred trying to load data from database")
+        }
     }
 
     private fun documentToArticle(document: Result): Article {
@@ -99,20 +99,28 @@ class NewsRepositoryImpl @Inject constructor(
         )
     }
 
-    override fun getSavedArticlesCount(): Int {
-        return database.count.toInt()
+    override fun getSavedArticlesCount(): Resource<Int> {
+        return try {
+            Resource.Success(database.count.toInt())
+        } catch (e: CouchbaseLiteException) {
+            Resource.Error(e.message ?: "An unknown error has occurred")
+        }
     }
 
-    override fun isArticleSaved(url: String): Boolean {
+    override fun isArticleSaved(url: String): Resource<Boolean> {
         try {
             val results = QueryBuilder.select(SelectResult.property("url"))
                 .from(DataSource.database(database)).execute()
-            results.forEach { if(url == it.getString("url")) return true }
-        } catch (e: CouchbaseLiteException) { }
-        return false
+            results.forEach {
+                if(url == it.getString("url")) return Resource.Success(true)
+            }
+        } catch (e: CouchbaseLiteException) {
+            return Resource.Error(e.message ?: "An unknown error has occurred")
+        }
+        return Resource.Success(false)
     }
 
-    override fun saveArticle(article: Article): String? {
+    override fun saveArticle(article: Article): Resource<String> {
         try {
             val source = MutableDictionary()
                 .setString("id", article.source.id)
@@ -130,17 +138,21 @@ class NewsRepositoryImpl @Inject constructor(
 
             database.save(document)
             article.id = document.id
-            return null
+            return Resource.Success(document.id)
 
-        } catch (e: CouchbaseLiteException) { return e.message }
+        } catch (e: CouchbaseLiteException) {
+            return Resource.Error(e.message ?: "An unknown error has occurred")
+        }
     }
 
-    override fun removeArticle(article: Article): String? {
+    override fun removeArticle(article: Article): Resource<String> {
         return try {
             val document = database.getDocument(article.id!!)
             document?.let { database.delete(it) }
             article.id = null
-            null
-        } catch (e: CouchbaseLiteException) { e.message }
+            Resource.Success(article.id!!)
+        } catch (e: CouchbaseLiteException) {
+            Resource.Error(e.message ?: "An unknown error has occurred")
+        }
     }
 }

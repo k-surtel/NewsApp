@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ks.newsapp.data.Feed
 import com.ks.newsapp.data.NewsRepository
-import com.ks.newsapp.data.api.Resource
+import com.ks.newsapp.data.Resource
 import com.ks.newsapp.data.models.Article
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

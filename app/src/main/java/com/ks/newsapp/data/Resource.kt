@@ -1,4 +1,4 @@
-package com.ks.newsapp.data.api
+package com.ks.newsapp.data
 
 sealed class Resource<T>(val data: T?, val message: String?) {
     class Success<T>(data: T) : Resource<T>(data, null)
