@@ -103,7 +103,7 @@ class NewsRepositoryImpl @Inject constructor(
         return try {
             Resource.Success(database.count.toInt())
         } catch (e: CouchbaseLiteException) {
-            Resource.Error(e.message ?: "An unknown error has occurred")
+            Resource.Error(e.message ?: "An unknown error has occurred trying to load data from database")
         }
     }
 
@@ -115,7 +115,7 @@ class NewsRepositoryImpl @Inject constructor(
                 if(url == it.getString("url")) return Resource.Success(true)
             }
         } catch (e: CouchbaseLiteException) {
-            return Resource.Error(e.message ?: "An unknown error has occurred")
+            return Resource.Error(e.message ?: "An unknown error has occurred trying to load data from database")
         }
         return Resource.Success(false)
     }
@@ -141,7 +141,7 @@ class NewsRepositoryImpl @Inject constructor(
             return Resource.Success(document.id)
 
         } catch (e: CouchbaseLiteException) {
-            return Resource.Error(e.message ?: "An unknown error has occurred")
+            return Resource.Error(e.message ?: "An unknown error has occurred trying to save data to database")
         }
     }
 
@@ -152,7 +152,7 @@ class NewsRepositoryImpl @Inject constructor(
             article.id = null
             Resource.Success(article.id!!)
         } catch (e: CouchbaseLiteException) {
-            Resource.Error(e.message ?: "An unknown error has occurred")
+            Resource.Error(e.message ?: "An unknown error has occurred trying to delete record from database")
         }
     }
 }

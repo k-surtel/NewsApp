@@ -2,6 +2,7 @@ package com.ks.newsapp.ui.news
 
 import com.ks.newsapp.MainCoroutineRule
 import com.ks.newsapp.data.FakeNewsRepository
+import com.ks.newsapp.data.NewsRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Before
@@ -15,10 +16,12 @@ class NewsViewModelTest {
     var mainCoroutineRule = MainCoroutineRule()
 
     private lateinit var newsViewModel: NewsViewModel
+    private lateinit var fakeNewsRepository: FakeNewsRepository
 
     @Before
     fun before() {
-        newsViewModel = NewsViewModel(FakeNewsRepository())
+        fakeNewsRepository = FakeNewsRepository()
+        newsViewModel = NewsViewModel(fakeNewsRepository)
     }
 
     @Test
@@ -64,8 +67,30 @@ class NewsViewModelTest {
     }
 
     @Test
-    fun `get news`() {
+    fun `get news network error, getNewsEvent is failure`() {
+        fakeNewsRepository.shouldReturnNetworkError(true)
         newsViewModel.loadNews()
-        // todo
+        assert(newsViewModel.getNewsEvent.value is NewsViewModel.NewsEvent.Failure)
+    }
+
+    @Test
+    fun `get news, getNewsEvent is success with article received`() {
+        newsViewModel.loadNews()
+        assertNotNull((newsViewModel.getNewsEvent.value as NewsViewModel.NewsEvent.Success).articles)
+    }
+
+    @Test
+    fun `get news repeatedly, getNewsEvent has full list of articles`() {
+        newsViewModel.loadNews()
+        newsViewModel.loadNextPage()
+        newsViewModel.loadNextPage()
+        assertEquals(3, (newsViewModel.getNewsEvent.value as NewsViewModel.NewsEvent.Success).articles.size)
+    }
+
+    @Test
+    fun `get news list gets refreshed, doesn't add up articles`() {
+        newsViewModel.loadNews()
+        newsViewModel.loadNews()
+        assertEquals(1, (newsViewModel.getNewsEvent.value as NewsViewModel.NewsEvent.Success).articles.size)
     }
 }

@@ -19,8 +19,8 @@ class NewsViewModel @Inject constructor(
 
     var currentFeed = Feed.TOP_NEWS
     var bottomReached = false
-    var currentPage = 1
-    var allLoaded = false
+    private var currentPage = 1
+    private var allLoaded = false
 
     var country: String? = "us"
     var category: String? = null
@@ -81,7 +81,7 @@ class NewsViewModel @Inject constructor(
         )) {
             is Resource.Error -> {
                 if(newsResponse.message.isNullOrBlank())
-                    _getNewsEvent.value = NewsEvent.Failure("An unknown error occurred")
+                    _getNewsEvent.value = NewsEvent.Failure("An unknown error occurred trying to load news")
                 else _getNewsEvent.value = NewsEvent.Failure(newsResponse.message)
             }
             is Resource.Success -> {

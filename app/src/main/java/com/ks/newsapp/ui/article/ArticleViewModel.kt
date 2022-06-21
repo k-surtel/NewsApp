@@ -18,22 +18,24 @@ class ArticleViewModel @Inject constructor(
 
     fun saveArticle(): String? {
         val isArticleSaved = isArticleAlreadySaved()
-        return if(isArticleSaved is Resource.Error) isArticleSaved.message
-        else if(!isArticleSaved.data!!) saveArticleToDatabase()
+        return if (isArticleSaved is Resource.Error) isArticleSaved.message
+        else if (!isArticleSaved.data!!) saveArticleToDatabase()
         else "The article is already saved in the database"
     }
 
     private fun isArticleAlreadySaved() = repository.isArticleSaved(article.url)
 
     private fun saveArticleToDatabase(): String? {
-        val saveRequest = repository.saveArticle(article)
-        return if(saveRequest is Resource.Error) saveRequest.message
-        else null
+        return when(val saveRequest = repository.saveArticle(article)) {
+            is Resource.Error -> saveRequest.message
+            else -> null
+        }
     }
 
-        fun removeArticle(): String? {
-            val removeRequest = repository.removeArticle(article)
-            return if(removeRequest is Resource.Error) removeRequest.message
-            else null
+    fun removeArticle(): String? {
+        return when(val removeRequest = repository.removeArticle(article)) {
+            is Resource.Error -> removeRequest.message
+            else -> null
+        }
     }
 }
