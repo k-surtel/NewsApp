@@ -96,8 +96,7 @@ class NewsRepositoryImpl @Inject constructor(
             title = document.getString("title") ?: "",
             url = document.getString("url") ?: "",
             urlToImage = document.getString("urlToImage") ?: "",
-            source = source,
-            id = document.getString("id")
+            source = source
         )
     }
 
@@ -143,7 +142,6 @@ class NewsRepositoryImpl @Inject constructor(
                 .setString("urlToImage", article.urlToImage)
 
             database.save(document)
-            article.id = document.id
             return Resource.Success(document.id)
 
         } catch (e: CouchbaseLiteException) {
@@ -152,15 +150,28 @@ class NewsRepositoryImpl @Inject constructor(
     }
 
     override fun removeArticle(article: Article): Resource<String> {
-        if (article.id == null) return Resource.Error(Resources.getSystem().getString(R.string.error_no_id))
-        return try {
-            val document = database.getDocument(article.id!!)
-            document?.let { database.delete(it) }
-            val id = article.id
-            article.id = null
-            Resource.Success(id!!)
+        try {
+            val document = findDocumentByUrl(article.url)
+            document?.let {
+                database.delete(it)
+                return Resource.Success(it.id)
+            }
+            return Resource.Error(Resources.getSystem().getString(R.string.error_delete_no_article))
         } catch (e: CouchbaseLiteException) {
-            Resource.Error(e.message ?: Resources.getSystem().getString(R.string.error_delete_from_db))
+            return Resource.Error(e.message ?: Resources.getSystem().getString(R.string.error_delete_from_db))
         }
+    }
+
+    private fun findDocumentByUrl(url: String): Document? {
+        val query = QueryBuilder.select(SelectResult.expression(Meta.id))
+            .from(DataSource.database(database))
+            .where(Expression.property("url").equalTo(Expression.string(url)))
+            .execute()
+
+        val docId = query.first().getString("id")
+        docId?.let {
+            return database.getDocument(it)
+        }
+        return null
     }
 }

@@ -27,5 +27,6 @@
     <string name="error_save_data">An unknown error has occurred trying to save data to database</string>
     <string name="error_no_id">No ID is associated with the article</string>
     <string name="error_delete_from_db">An unknown error has occurred trying to delete record from database</string>
+    <string name="error_delete_no_article">The article has not been found in the database</string>
     <string name="select_date">Select date</string>
 </resources>

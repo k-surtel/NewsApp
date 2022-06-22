@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.ks.newsapp.R
+import com.ks.newsapp.data.Resource
 import com.ks.newsapp.data.models.Article
 import com.ks.newsapp.databinding.ActivityArticleBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,8 +29,7 @@ class ArticleActivity : AppCompatActivity() {
         setContentView(binding.root)
         setupSupportActionBar()
         bindData()
-
-        databaseOperationsButtonsVisibility(viewModel.article.id != null)
+        setArticleSavedStatus()
 
         binding.buttonViewInBrowser.setOnClickListener { openArticleUrl() }
         binding.buttonSave.setOnClickListener { saveToDatabase() }
@@ -52,6 +52,15 @@ class ArticleActivity : AppCompatActivity() {
         else binding.author.text = viewModel.article.author
         binding.date.text = viewModel.article.publishedAt.replace('T', ' ').trimEnd('Z')
         binding.source.text = viewModel.article.source.name
+    }
+
+    private fun setArticleSavedStatus() {
+        when(val isArticleSaved = viewModel.isArticleSaved()) {
+            is Resource.Error -> Snackbar.make(binding.root, isArticleSaved.message!!, Snackbar.LENGTH_LONG).show()
+            else -> {
+                databaseOperationsButtonsVisibility(isArticleSaved.data!!)
+            }
+        }
     }
 
     private fun databaseOperationsButtonsVisibility(isSaved: Boolean) {

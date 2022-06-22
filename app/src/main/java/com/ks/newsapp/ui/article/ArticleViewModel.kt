@@ -28,4 +28,8 @@ class ArticleViewModel @Inject constructor(
             else -> null
         }
     }
+
+    fun isArticleSaved(): Resource<Boolean> {
+        return repository.isArticleSaved(article.url)
+    }
 }
