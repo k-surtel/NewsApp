@@ -47,7 +47,7 @@ class NewsRepositoryImplTest {
 
     private fun initiateDatabase(): Database {
         if(!testDbDirectory.exists()) testDbDirectory.mkdir()
-        CouchbaseLite.init(ApplicationProvider.getApplicationContext())
+        CouchbaseLite.init(context)
         val cfg = DatabaseConfigurationFactory.create()
         cfg.directory = testDbDirectory.absolutePath
         return Database("testDb", cfg)

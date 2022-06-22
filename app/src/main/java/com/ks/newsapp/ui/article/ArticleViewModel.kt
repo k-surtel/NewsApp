@@ -17,15 +17,6 @@ class ArticleViewModel @Inject constructor(
     lateinit var article: Article
 
     fun saveArticle(): String? {
-        val isArticleSaved = isArticleAlreadySaved()
-        return if (isArticleSaved is Resource.Error) isArticleSaved.message
-        else if (!isArticleSaved.data!!) saveArticleToDatabase()
-        else "The article is already saved in the database"
-    }
-
-    private fun isArticleAlreadySaved() = repository.isArticleSaved(article.url)
-
-    private fun saveArticleToDatabase(): String? {
         return when(val saveRequest = repository.saveArticle(article)) {
             is Resource.Error -> saveRequest.message
             else -> null

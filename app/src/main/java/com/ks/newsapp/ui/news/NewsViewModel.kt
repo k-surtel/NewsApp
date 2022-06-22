@@ -1,7 +1,9 @@
 package com.ks.newsapp.ui.news
 
+import android.content.res.Resources
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ks.newsapp.R
 import com.ks.newsapp.data.Feed
 import com.ks.newsapp.data.NewsRepository
 import com.ks.newsapp.data.Resource
@@ -81,7 +83,7 @@ class NewsViewModel @Inject constructor(
         )) {
             is Resource.Error -> {
                 if(newsResponse.message.isNullOrBlank())
-                    _getNewsEvent.value = NewsEvent.Failure("An unknown error occurred trying to load news")
+                    _getNewsEvent.value = NewsEvent.Failure(Resources.getSystem().getString(R.string.error_load_news))
                 else _getNewsEvent.value = NewsEvent.Failure(newsResponse.message)
             }
             is Resource.Success -> {

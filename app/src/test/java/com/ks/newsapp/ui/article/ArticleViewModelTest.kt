@@ -1,6 +1,7 @@
 package com.ks.newsapp.ui.article
 
 import com.ks.newsapp.data.FakeNewsRepository
+import com.ks.newsapp.data.Resource
 import com.ks.newsapp.data.models.Article
 import com.ks.newsapp.data.models.Source
 import org.junit.Assert.*
@@ -20,16 +21,15 @@ class ArticleViewModelTest {
     }
 
     @Test
-    fun `save article, returns couchbase exception`() {
+    fun `save article, returns error message`() {
         fakeNewsRepository.shouldReturnCouchbaseError(true)
         assertNotNull(viewModel.saveArticle())
-        assertNotEquals("The article is already saved in the database", viewModel.saveArticle())
     }
 
     @Test
-    fun `save article that is already saved, returns already saved message`() {
+    fun `save article that is already saved, returns error message`() {
         fakeNewsRepository.shouldArticleBeAlreadySaved(true)
-        assertEquals("The article is already saved in the database", viewModel.saveArticle())
+        assertNotNull(viewModel.saveArticle())
     }
 
     @Test

@@ -177,7 +177,7 @@ class NewsFragment : Fragment() {
 
     private fun getDatePicker(selection: Long?): MaterialDatePicker<Long> {
         return MaterialDatePicker.Builder.datePicker()
-            .setTitleText("Select date")
+            .setTitleText(getString(R.string.select_date))
             .setSelection(selection)
             .build()
     }

@@ -1,11 +1,13 @@
 package com.ks.newsapp.data
 
+import android.content.res.Resources
 import com.couchbase.lite.*
 import com.ks.newsapp.data.api.NewsApi
 import com.ks.newsapp.data.models.Article
 import com.ks.newsapp.data.models.NewsResponse
 import com.ks.newsapp.data.models.Source
 import javax.inject.Inject
+import com.ks.newsapp.R
 
 class NewsRepositoryImpl @Inject constructor(
     private val newsApi: NewsApi,
@@ -51,7 +53,7 @@ class NewsRepositoryImpl @Inject constructor(
             else Resource.Error(response.message())
 
         } catch (e: Exception) {
-            Resource.Error(e.message ?: "Unknown error")
+            Resource.Error(e.message ?: Resources.getSystem().getString(R.string.error_load_news))
         }
     }
 
@@ -76,7 +78,7 @@ class NewsRepositoryImpl @Inject constructor(
             return Resource.Success(articles.toList())
 
         } catch (e: CouchbaseLiteException) {
-            return Resource.Error(e.message ?: "An unknown error has occurred trying to load data from database")
+            return Resource.Error(e.message ?: Resources.getSystem().getString(R.string.error_load_database))
         }
     }
 
@@ -103,7 +105,7 @@ class NewsRepositoryImpl @Inject constructor(
         return try {
             Resource.Success(database.count.toInt())
         } catch (e: CouchbaseLiteException) {
-            Resource.Error(e.message ?: "An unknown error has occurred trying to load data from database")
+            Resource.Error(e.message ?: Resources.getSystem().getString(R.string.error_load_database))
         }
     }
 
@@ -115,15 +117,17 @@ class NewsRepositoryImpl @Inject constructor(
                 if(url == it.getString("url")) return Resource.Success(true)
             }
         } catch (e: CouchbaseLiteException) {
-            return Resource.Error(e.message ?: "An unknown error has occurred trying to load data from database")
+            return Resource.Error(e.message ?: Resources.getSystem().getString(R.string.error_load_database))
         }
         return Resource.Success(false)
     }
 
     override fun saveArticle(article: Article): Resource<String> {
-        val isArticleSaved = isArticleSaved(article.url).data
-        if (isArticleSaved != null && isArticleSaved) return Resource.Error("Article is already saved in the database")
         try {
+            val isArticleSaved = isArticleSaved(article.url).data
+            if (isArticleSaved != null && isArticleSaved)
+                return Resource.Error(Resources.getSystem().getString(R.string.error_article_already_saved))
+
             val source = MutableDictionary()
                 .setString("id", article.source.id)
                 .setString("name", article.source.name)
@@ -143,12 +147,12 @@ class NewsRepositoryImpl @Inject constructor(
             return Resource.Success(document.id)
 
         } catch (e: CouchbaseLiteException) {
-            return Resource.Error(e.message ?: "An unknown error has occurred trying to save data to database")
+            return Resource.Error(e.message ?: Resources.getSystem().getString(R.string.error_save_data))
         }
     }
 
     override fun removeArticle(article: Article): Resource<String> {
-        if (article.id == null) return Resource.Error("No ID is associated with the article")
+        if (article.id == null) return Resource.Error(Resources.getSystem().getString(R.string.error_no_id))
         return try {
             val document = database.getDocument(article.id!!)
             document?.let { database.delete(it) }
@@ -156,7 +160,7 @@ class NewsRepositoryImpl @Inject constructor(
             article.id = null
             Resource.Success(id!!)
         } catch (e: CouchbaseLiteException) {
-            Resource.Error(e.message ?: "An unknown error has occurred trying to delete record from database")
+            Resource.Error(e.message ?: Resources.getSystem().getString(R.string.error_delete_from_db))
         }
     }
 }

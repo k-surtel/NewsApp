@@ -64,6 +64,7 @@ class FakeNewsRepository : NewsRepository {
 
     override fun saveArticle(article: Article): Resource<String> {
         return if(shouldReturnCouchbaseError) Resource.Error("saveArticle ERROR")
+        else if(shouldArticleBeAlreadySaved) Resource.Error("article already saved")
         else Resource.Success("")
     }
 
