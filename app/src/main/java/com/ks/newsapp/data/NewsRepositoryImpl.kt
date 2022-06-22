@@ -121,6 +121,8 @@ class NewsRepositoryImpl @Inject constructor(
     }
 
     override fun saveArticle(article: Article): Resource<String> {
+        val isArticleSaved = isArticleSaved(article.url).data
+        if (isArticleSaved != null && isArticleSaved) return Resource.Error("Article is already saved in the database")
         try {
             val source = MutableDictionary()
                 .setString("id", article.source.id)
@@ -146,11 +148,13 @@ class NewsRepositoryImpl @Inject constructor(
     }
 
     override fun removeArticle(article: Article): Resource<String> {
+        if (article.id == null) return Resource.Error("No ID is associated with the article")
         return try {
             val document = database.getDocument(article.id!!)
             document?.let { database.delete(it) }
+            val id = article.id
             article.id = null
-            Resource.Success(article.id!!)
+            Resource.Success(id!!)
         } catch (e: CouchbaseLiteException) {
             Resource.Error(e.message ?: "An unknown error has occurred trying to delete record from database")
         }
