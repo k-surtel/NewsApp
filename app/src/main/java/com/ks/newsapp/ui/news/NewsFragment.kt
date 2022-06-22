@@ -93,7 +93,7 @@ class NewsFragment : Fragment() {
 
     private fun handleFeedSourceChange() {
         binding.feedButtonGroup.check(R.id.top_news_button)
-        binding.feedButtonGroup.addOnButtonCheckedListener { group, checkedId, isChecked ->
+        binding.feedButtonGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
             if(!isChecked) return@addOnButtonCheckedListener
             when(checkedId) {
                 R.id.top_news_button -> {
@@ -185,13 +185,13 @@ class NewsFragment : Fragment() {
     private fun showFromDatePicker() {
         val datePicker = getDatePicker(viewModel.fromTimestamp)
         datePicker.addOnPositiveButtonClickListener { setFromDate(it) }
-        datePicker.show(activity!!.supportFragmentManager, "tag");
+        datePicker.show(activity!!.supportFragmentManager, "tag")
     }
 
     private fun showToDatePicker() {
         val datePicker = getDatePicker(viewModel.toTimestamp)
         datePicker.addOnPositiveButtonClickListener { setToDate(it) }
-        datePicker.show(activity!!.supportFragmentManager, "tag");
+        datePicker.show(activity!!.supportFragmentManager, "tag")
     }
 
     private fun setFromDate(date: Long) {

@@ -1,12 +1,9 @@
 package com.ks.newsapp.ui.saved
 
 import androidx.lifecycle.ViewModel
-import com.couchbase.lite.*
 import com.ks.newsapp.data.NewsRepository
 import com.ks.newsapp.data.Resource
 import com.ks.newsapp.data.models.Article
-import com.ks.newsapp.data.models.Source
-import com.ks.newsapp.ui.adapters.ArticlesAdapter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

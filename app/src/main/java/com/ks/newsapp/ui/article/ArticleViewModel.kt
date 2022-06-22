@@ -1,7 +1,6 @@
 package com.ks.newsapp.ui.article
 
 import androidx.lifecycle.ViewModel
-import com.couchbase.lite.*
 import com.ks.newsapp.data.NewsRepository
 import com.ks.newsapp.data.Resource
 import com.ks.newsapp.data.models.Article

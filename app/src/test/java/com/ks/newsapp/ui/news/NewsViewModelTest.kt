@@ -2,7 +2,6 @@ package com.ks.newsapp.ui.news
 
 import com.ks.newsapp.MainCoroutineRule
 import com.ks.newsapp.data.FakeNewsRepository
-import com.ks.newsapp.data.NewsRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Before

@@ -1,13 +1,10 @@
 package com.ks.newsapp.data
 
 import android.content.Context
-import android.os.Environment
-import android.util.Log
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.couchbase.lite.*
 import com.ks.newsapp.data.api.NewsApi
-import com.ks.newsapp.data.api.Utils
 import com.ks.newsapp.data.models.Article
 import com.ks.newsapp.data.models.Source
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -18,8 +15,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
 import javax.inject.Inject
 

@@ -1,7 +1,6 @@
 package com.ks.newsapp.ui.article
 
 import com.ks.newsapp.data.FakeNewsRepository
-import com.ks.newsapp.data.Resource
 import com.ks.newsapp.data.models.Article
 import com.ks.newsapp.data.models.Source
 import org.junit.Assert.*
